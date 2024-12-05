@@ -1,5 +1,5 @@
 "use client"
-import { Plus } from "lucide-react";
+import { Github, LucideGithub, Plus } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -36,11 +36,11 @@ const CreateProject = () => {
     }
     return (
         <div className="h-full w-full flex justify-center items-center gap-12 text-black">
-            <Image src={"/images.jpg"} alt="man working" width={200} height={200}></Image>
+            <img src={"images.jpg"} alt="man working" width={200} height={200}></img>
             <div className="flex flex-col gap-5">
                 <div className="">
 
-                    <h1 className="font-bold xl:text-2xl 2xl:text-3xl ">Link Your Github Repository</h1>
+                    <h1 className="font-bold xl:text-2xl 2xl:text-3xl flex items-center gap-2">Link Your Github Repository <Github className="size-8"></Github></h1>
                     <p className="text-sm text-muted-foreground text-center">Enter your Github respository to link</p>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>

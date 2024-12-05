@@ -33,10 +33,10 @@ export async function getcommitHashes(githubUrl: string): Promise<Response[]> {
 
     return sortedCommits.slice(0, 8).map((commits: any) => ({
         commitHash: commits.sha as string,
-        commitAuthorAvatar: commits.author.avatar_url ?? "",
-        commitMessage: commits.commit.message ?? "",
-        commitAuthorName: commits.commit.author.name ?? "",
-        commitDate: commits.commit.author.date ?? ""
+        commitAuthorAvatar: commits.author.avatar_url || "",
+        commitMessage: commits.commit.message || "",
+        commitAuthorName: commits.commit.author.name || "",
+        commitDate: commits.commit.author.date || ""
     }))
 }
 
