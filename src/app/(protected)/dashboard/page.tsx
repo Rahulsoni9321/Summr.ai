@@ -6,13 +6,16 @@ import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import useProject from "~/hooks/use-project"
 import CommitHolder from "./commit-holder";
+import AskQuestionCard from "./askquestion-card";
 
 const Dashboard = () => {
-  const {project} = useProject();
+ 
   
+  const {project,projectId} = useProject();
+  console.log(projectId);
   return (
     <div className=''>
-       
+       {project?.id}
       <div className="w-full flex items-center justify-between px-2">
        <Button className="h-12 bg-primary flex items-center flex-wrap gap-2">
         <GithubIcon className=" size-12" ></GithubIcon>
@@ -29,10 +32,8 @@ const Dashboard = () => {
           <Button className="bg-sidebar border border-sidebar-border text-black">Archive</Button>
           </div> 
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5  space-x-2 ">
-        <div className="col-span-3 border border-sidebar-border py-8 rounded-md my-2">
-          Meeting Card
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5  gap-4 my-4 m-2 ">
+        <AskQuestionCard/>
         <div className="col-span-2 border border-sidebar-border py-8 rounded-md my-2">
           AI Something
         </div>

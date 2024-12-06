@@ -7,7 +7,7 @@ const loadGithubRepo = async (githubUrl:string,githubToken?:string)=>{
     const loadRepo = new GithubRepoLoader(githubUrl,{
      accessToken:githubToken || "",
      branch:'main',
-     ignoreFiles:['package-lock.json','yarn-lock','pnpm-lock.yaml','bun.lockb'
+     ignoreFiles:['package-lock.json','yarn-lock','pnpm-lock.yaml','bun.lockb','.gitignore'
      ],
      recursive:true,
      unknown:'warn',
@@ -23,6 +23,8 @@ export const indexGithubRepo = async (projectId:string,githubUrl:string,githubTo
     const allEmbeddingValue = await generateEmbeddings(docs);
     await Promise.allSettled(allEmbeddingValue.map(async (embeddingvalue,index)=>{
         if (!embeddingvalue) return;
+
+        console.log(`Populating ${index}`)
         const sourceCodeEmbedding = await db.sourceCodeEmbedding.create({
             data:{
                 projectId,
@@ -55,4 +57,3 @@ export const generateEmbeddings=async (docs:Document[])=>{
 
 
 
-// console.log(await loadGithubRepo('https://github.com/Rahulsoni9321/Portfolio'))

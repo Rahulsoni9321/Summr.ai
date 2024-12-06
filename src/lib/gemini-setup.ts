@@ -25,14 +25,17 @@ export async function summarizeCommits(data: string) {
 }
 
 export async function summarizeCode(docs: Document) {
-  try {  const code = docs.pageContent.slice(0, 10000);
-    const summary = await model.generateContent(`You are trying to explain the purpose of the ${docs.metadata.source} file to the user.
+    try {
+        const code = docs.pageContent.slice(0, 5000);
+        const summary = await model.generateContent(`You are trying to explain the purpose of the ${docs.metadata.source} file to the user.
         Here's the code
         ---
         ${code}
-        ---`)
-    return summary.response.text();}
-    catch(error) {
+        ---
+        Try to summarize it in as minimum line as possible, don't repeat same point. Make the response in a bullet point and again don't make the response consuming huge number of lines, keep it short and suffice.`)
+        return summary.response.text();
+    }
+    catch (error) {
         if (error instanceof GoogleGenerativeAIError) {
             return error.message
         }
@@ -46,7 +49,7 @@ export const getEmbeddedContent = async (summary: string) => {
         const genAI = new GoogleGenerativeAI(GEMINI_KEY);
         const model = genAI.getGenerativeModel({
             model: 'text-embedding-004',
-            systemInstruction: 'You are senior software engineer who have a very deep knowledge of tech.'
+            systemInstruction: 'You are senior software engineer who have a very deep knowledge of tech. Now you are '
         })
         const embeddedContent = await model.embedContent(summary);
         return embeddedContent.embedding.values;

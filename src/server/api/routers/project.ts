@@ -11,6 +11,7 @@ export const ProjectRouter = createTRPCRouter({
       githubToken:z.string().optional()
     })
   ).mutation(async ({ctx,input})=>{
+    
     const project = await ctx.db.project.create({
       data:{
         githubToken:input.githubToken || "",
@@ -23,9 +24,10 @@ export const ProjectRouter = createTRPCRouter({
         }
       }
     })
-
-    await pollCommits(project.id)
-    await indexGithubRepo(project.id,project.githubUrl,project.githubToken)
+   
+    
+       pollCommits(project.id)
+      indexGithubRepo(project.id,project.githubUrl,project.githubToken)
     return project;
   }),
   getProjects:protectedProcedure.query(async ({ctx})=>{
