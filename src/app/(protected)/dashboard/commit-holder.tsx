@@ -6,7 +6,6 @@ import { api } from "~/trpc/react";
 
 const CommitHolder = () => {
     const { projectId, project } = useProject();
-    console.log(projectId);
     const { data: commits } = api.project.getCommits.useQuery({ projectId })
     return (
         <>

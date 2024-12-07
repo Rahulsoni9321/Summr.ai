@@ -60,7 +60,7 @@ export async function getcommitHashes(githubUrl: string): Promise<Response[]> {
     }
     const sortedCommits = data.sort((a: any, b: any) => new Date(b.commit.author?.date).getTime() - new Date(a.commit.author?.date).getTime()) as any[];
 
-    return sortedCommits.slice(0, 8).map((commits: any) => ({
+    return sortedCommits.slice(0, 10).map((commits: any) => ({
         commitHash: commits.sha as string,
         commitAuthorAvatar: commits.author.avatar_url || "",
         commitMessage: commits.commit.message || "",

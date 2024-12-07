@@ -12,10 +12,9 @@ const Dashboard = () => {
  
   
   const {project,projectId} = useProject();
-  console.log(projectId);
+
   return (
     <div className=''>
-       {project?.id}
       <div className="w-full flex items-center justify-between px-2">
        <Button className="h-12 bg-primary flex items-center flex-wrap gap-2">
         <GithubIcon className=" size-12" ></GithubIcon>

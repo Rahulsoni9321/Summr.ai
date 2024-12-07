@@ -24,7 +24,6 @@ export const indexGithubRepo = async (projectId:string,githubUrl:string,githubTo
     await Promise.allSettled(allEmbeddingValue.map(async (embeddingvalue,index)=>{
         if (!embeddingvalue) return;
 
-        console.log(`Populating ${index}`)
         const sourceCodeEmbedding = await db.sourceCodeEmbedding.create({
             data:{
                 projectId,
