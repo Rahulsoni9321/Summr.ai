@@ -9,6 +9,9 @@ import { Textarea } from "~/components/ui/textarea";
 import useProject from "~/hooks/use-project";
 import { askQuestion } from "./actions";
 import { Tabs, TabsList } from "~/components/ui/tabs";
+import { api } from "~/trpc/react";
+import { toast } from "sonner";
+import useRefetch from "~/hooks/use-refetch";
 
 const AskQuestionCard = () => {
     const { project } = useProject();
@@ -17,6 +20,7 @@ const AskQuestionCard = () => {
     const [loading,setloading] = useState(false);
     const [answer,setanswer] = useState('')
     const [filesReferences,setfilesReferences] = useState<{fileName:string,content:string,summary:string}[]>()
+    const saveAnswer = api.project.saveAnswers.useMutation();
     const onSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
         setanswer('');
         setfilesReferences([])
@@ -32,19 +36,40 @@ const AskQuestionCard = () => {
             setanswer(ans => ans + delta)
          }
         }
+       
         setloading(false);
+    }
+
+    const saveOutputAnswer = ()=>{
+        saveAnswer.mutate({
+            projectId:project!.id,
+            fileReferences:filesReferences,
+            answer:answer,
+            question:question
+           },{
+            onSuccess: () => {
+                toast.success('Answer saved successfully.')
+                useRefetch();
+            },
+            onError: () => {
+                toast.error('Failed to save answer')
+            }
+        })
     }
     return <>
         <Dialog open={open} onOpenChange={setopen}>
             <DialogContent>
 
                 <DialogHeader>
+                    <div className="flex items-center gap-4">
+
                     <DialogTitle>
                         <img src={'/png-clipart-logo-xunit-random-org-randomness-computer-software-logo-github-blue-angle.png'} width={40} height={40}></img>
                     </DialogTitle>
+                    <Button variant="outline" onClick={saveOutputAnswer} disabled={saveAnswer.isPending}> Save Answer</Button>
+                    </div>
                 </DialogHeader>
                 <MDEditor.Markdown source={answer} className="sm:w-[80vw] h-full max-h-[40vh] overflow-scroll"></MDEditor.Markdown>
-               
                 <Button onClick={()=> setopen(false)}> Close</Button>
             </DialogContent>
         </Dialog>

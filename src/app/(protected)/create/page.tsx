@@ -35,8 +35,8 @@ const CreateProject = () => {
 
     }
     return (
-        <div className="h-full w-full flex justify-center items-center gap-12 text-black">
-            <img src={"images.jpg"} alt="man working" width={200} height={200}></img>
+        <div className="h-full w-full flex justify-center items-center gap-12 dark:text-gray-100 text-black">
+            <img src={"images.jpg"} alt="man working " className="rounded-full" width={200} height={200}></img>
             <div className="flex flex-col gap-5">
                 <div className="">
 

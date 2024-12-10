@@ -7,11 +7,12 @@ import { Button } from "~/components/ui/button";
 import useProject from "~/hooks/use-project"
 import CommitHolder from "./commit-holder";
 import AskQuestionCard from "./askquestion-card";
+import MeetingCard from "./meeting-card";
 
 const Dashboard = () => {
  
   
-  const {project,projectId} = useProject();
+  const {project} = useProject();
 
   return (
     <div className=''>
@@ -27,15 +28,13 @@ const Dashboard = () => {
         </Button>
         <div className="flex items-center gap-5">
           <UserButton></UserButton>
-          <Button className="bg-sidebar border border-sidebar-border text-black">Invite a team Member!</Button>
-          <Button className="bg-sidebar border border-sidebar-border text-black">Archive</Button>
+          <Button className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Invite a team Member!</Button>
+          <Button className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Archive</Button>
           </div> 
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5  gap-4 my-4 m-2 ">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5  gap-4 my-6 m-2 ">
         <AskQuestionCard/>
-        <div className="col-span-2 border border-sidebar-border py-8 rounded-md my-2">
-          AI Something
-        </div>
+        <MeetingCard></MeetingCard>
       </div>
           <CommitHolder></CommitHolder>
     </div>

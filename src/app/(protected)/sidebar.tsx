@@ -39,7 +39,7 @@ export const AppSidebar = () => {
                                 return <SidebarMenuItem key={items.label}>
                                     <SidebarMenuButton asChild>
 
-                                        <Link href={items.url} className={cn({ 'bg-primary  text-white': items.url === pathname }, '')}><items.icon></items.icon>{items.label}</Link>
+                                        <Link href={items.url} className={cn({ 'bg-primary  dark:text-black text-white': items.url === pathname }, '')}><items.icon></items.icon>{items.label}</Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             })}
@@ -57,7 +57,7 @@ export const AppSidebar = () => {
                                     return <SidebarMenuItem key={index}>
                                         <SidebarMenuButton asChild>
                                             <div className='cursor-pointer' onClick={()=>setprojectId(project.id)}>
-                                            <div  className={cn('rounded-sm border px-1 flex justify-center items-center gap-2 ',{'!bg-primary !text-white ':project.id==projectId})}>{project.name[0]}</div>{open && project.name}</div>
+                                            <div  className={cn('rounded-sm border px-1 flex justify-center items-center gap-2 ',{'!bg-primary dark:!text-black !text-white ':project.id==projectId})}>{project.name[0]}</div>{open && project.name}</div>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 })
