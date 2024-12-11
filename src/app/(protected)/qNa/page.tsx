@@ -24,15 +24,15 @@ const qNa = () => {
   const question = questions?.[selectedQuestionIndex] //optional chaining.
 
   return (
-    <Sheet>
+    <Sheet >
       <AskQuestionCard></AskQuestionCard>
       <div className='h-4'></div>
       <h1 className='text-xl font-semibold'>Saved Questions</h1>
       <div className='h-2'></div>
-      <div className='flex flex-col gap-3'>
+      <div className='flex flex-col gap-5'>
         {questions && questions.map((question, index) => {
           return <React.Fragment key={index}> <SheetTrigger onClick={() => setselectedQuestionIndex(index)} >
-            <div className={cn('bg-sidebar flex flex-col items-start gap-2 border dark:border-sidebar-primary-foreground border-sidebar-border rounded-md w-full', {})}>
+            <div className={cn('bg-sidebar flex flex-col items-start gap-2 border dark:bg-black   shadow  rounded-md w-full p-4', {})}>
               <div className='flex items-center gap-3'>
                 <p className='text-primary dark:text-white/90 text-lg line-clamp-1 font-medium'>{question.question}</p>
                 <p className='text-xs text-gray-400 whitespace-nowrap'>{question.createdAt.toLocaleDateString()}</p>
@@ -44,10 +44,10 @@ const qNa = () => {
         })}
 
       </div>
-    {question && <SheetContent className='max-w-[80vw]'>
+    {question && <SheetContent className='sm:max-w-[80vw] overflow-scroll'>
       <SheetHeader>
         <SheetTitle>{question.question}</SheetTitle>
-        <MDEditor.Markdown source={question.answer}></MDEditor.Markdown>
+        <MDEditor.Markdown source={question.answer} className='p-4'></MDEditor.Markdown>
         <CodeReferences fileReferences={question.fileReferences as any[]}></CodeReferences>
       </SheetHeader>
     </SheetContent>}

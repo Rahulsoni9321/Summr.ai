@@ -26,8 +26,13 @@ export const ProjectRouter = createTRPCRouter({
     })
 
 
-    pollCommits(project.id)
-    indexGithubRepo(project.id, project.githubUrl, project.githubToken)
+    await pollCommits(project.id)
+    await new Promise(resolve=>setTimeout(() => {
+      resolve(null)
+     
+    }, 61000))
+     indexGithubRepo(project.id, project.githubUrl, project.githubToken)
+  
     return project;
   }),
   getProjects: protectedProcedure.query(async ({ ctx }) => {

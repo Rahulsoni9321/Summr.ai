@@ -26,7 +26,7 @@ export async function summarizeCommits(data: string) {
 
 export async function summarizeCode(docs: Document) {
     try {
-        const code = docs.pageContent.slice(0, 2000);
+        const code = docs.pageContent.slice(0, 10000);
         const summary = await model.generateContent(`You are trying to explain the purpose of the ${docs.metadata.source} file to the user.
         Here's the code
         ---
@@ -43,9 +43,9 @@ export async function summarizeCode(docs: Document) {
     }
 }
 
-export const getEmbeddedContent = async (summary: string):Promise<number[] | string > => {
+export const getEmbeddedContent = async (summary: string):Promise<number[] > => {
 
-    try {
+    
         const genAI = new GoogleGenerativeAI(GEMINI_KEY);
         const model = genAI.getGenerativeModel({
             model: 'text-embedding-004',
@@ -53,12 +53,7 @@ export const getEmbeddedContent = async (summary: string):Promise<number[] | str
         })
         const embeddedContent = await model.embedContent(summary);
         return embeddedContent.embedding.values;
-    }
-    catch (error) {
-        if (error instanceof GoogleGenerativeAIError) {
-            return error.message
-        }
-        return "Something went wrong while generating embedded Content."
-    }
+    
+   
 
 }

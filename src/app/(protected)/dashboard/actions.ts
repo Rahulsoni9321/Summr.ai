@@ -14,10 +14,13 @@ export async function askQuestion(question: string, projectId: string) {
     const stream = createStreamableValue();
 
     const queryVector = await getEmbeddedContent(question);
-    //@ts-ignore
-    const vectorQuery = `[${queryVector.join(',')}]`
-    //@ts-ignore
-    const result = await db.$executeRaw`
+    
+    const vectorQuery = `[${queryVector.join(',')}]`;
+    
+    
+   
+   
+    const result = await db.$queryRaw`
     SELECT "fileName", "summary", "content",
     1 -("summaryEmbedding" <=> ${vectorQuery}::vector) AS similarity
     FROM "sourceCodeEmbedding"
@@ -25,8 +28,10 @@ export async function askQuestion(question: string, projectId: string) {
     AND "projectId" = ${projectId}  
     ORDER BY similarity DESC
     LIMIT 10
-    ` as {fileName:string,summary:string,content:string}[]
-
+    ` as {fileName:string,content:string,summary:string}[]
+   
+   
+   
     let context = '';
 
     for (const doc of result ) {
