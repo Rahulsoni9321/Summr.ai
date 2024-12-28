@@ -23,6 +23,7 @@ model User {
     credits        Int             @default(150)
     userToProjects UserToProject[]
     question       Question[]
+    meeting        Meeting[]
 }
 
 model Project {
@@ -67,18 +68,19 @@ model Meeting {
     id         String     @id @default(cuid())
     createdAt  DateTime   @default(now())
     updatedAt  DateTime   @updatedAt
-
+    name       String
     meetingUrl String
-    status     StatusType @default(PROCESSING)
-    
-    projectId  String
-    project    Project    @relation(fields: [projectId], references: [id])
+    status     StatusType @default(PROCESSING) 
+    userId     String
+    user       User       @relation(fields: [userId], references: [id])
+    projectId  String?
+    project    Project?    @relation(fields: [projectId], references: [id])
     issue      Issue[]
 }
 
 enum StatusType {
     PROCESSING
-    DONE
+    COMPLETED
     ERROR
 }
 

@@ -17,7 +17,7 @@ const CodeReferences = ({ fileReferences }: Props) => {
         <div className='max-w-[75vw]  flex justify-center '>
             <Tabs className="w-full" value={tab} onValueChange={setTab}>
 
-               <div className='flex gap-2 items-center overflow-x-scroll bg-gray-200 rounded-md p-1'>
+               <div className='flex gap-2 items-center overflow-x-scroll  rounded-md p-1'>
                 <TabsList> {fileReferences?.map((file) => {
                     return <TabsTrigger value={file.fileName} onClick={()=>setTab(file.fileName)} key={file.fileName} className={cn('font-medium text-sm rounded-md transition-colors whitespace-nowrap text-muted-foreground hover:bg-muted',{
                         'bg-primary text-primary-foreground' : file.fileName===tab

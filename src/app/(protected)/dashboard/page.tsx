@@ -10,10 +10,7 @@ import AskQuestionCard from "./askquestion-card";
 import MeetingCard from "./meeting-card";
 
 const Dashboard = () => {
-
-
   const { project } = useProject();
-
   return (
     <div className=''>
       <div className="w-full flex items-center justify-between px-2">
@@ -28,7 +25,6 @@ const Dashboard = () => {
         </Button>
         <div className="flex items-center gap-5">
           <UserButton></UserButton>
-      
           <Button className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Invite a team Member!</Button>
           <Button className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Archive</Button>
         </div>

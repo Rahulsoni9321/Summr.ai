@@ -1,12 +1,11 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GithubRepoLoader } from "@langchain/community/document_loaders/web/github"
 import { getEmbeddedContent, summarizeCode } from "./gemini-setup";
 import { Document } from "@langchain/core/documents";
 import { db } from "~/server/db";
 import _ from "lodash";
 const loadGithubRepo = async (githubUrl: string, githubToken?: string) => {
-    console.log(`inside loadgithubrepo ${githubUrl}`)
-    try {const loadRepo = new GithubRepoLoader(githubUrl, {
+    try {
+        const loadRepo = new GithubRepoLoader(githubUrl, {
         accessToken: githubToken || "",
         branch: 'main',
         ignoreFiles: ['package-lock.json', 'yarn-lock', 'pnpm-lock.yaml', 'bun.lockb', '.gitignore'
@@ -53,8 +52,6 @@ export const generateEmbeddings = async (docs: Document[]) => {
     for (const batch of batches) {
         const value = await Promise.all(batch.map(async (doc: Document) => {
             const summary = await summarizeCode(doc);
-            console.log(summary.substring(0, 8));
-          
             const getEmbeddedValue = await getEmbeddedContent(summary);
             return {
                 summary,

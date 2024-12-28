@@ -18,7 +18,7 @@ const CommitHolder = () => {
                         </div>
                         <>
                             <img src={commit.commitAuthorAvatar} alt={"githubAvatar"} className="size-8 flex-none mt-4  relative rounded-full bg-gray-50"></img>
-                            <div className="flex-auto rounded-md dark:bg-black/90 bg-white p-3 ring-1 ring-inset ring-gray-200">
+                            <div className="flex-auto rounded-md dark:bg-black/90 bg-white p-3 ring-1 ring-inset ring-gray-200 dark:ring-gray-300/40">
                                 <div className="flex justify-between gap-x-4 ">
                                     <Link href={`${project?.githubUrl}/commit/${commit.commitHash}`} target="_blank" className="py-0.5 text-xs leading-5">
                                         <span className="font-medium dark:text-gray-100 text-gray-900">

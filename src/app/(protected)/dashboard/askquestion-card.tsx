@@ -8,7 +8,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "~/components/u
 import { Textarea } from "~/components/ui/textarea";
 import useProject from "~/hooks/use-project";
 import { askQuestion } from "./actions";
-import { Tabs, TabsList } from "~/components/ui/tabs";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
 import useRefetch from "~/hooks/use-refetch";

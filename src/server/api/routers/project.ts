@@ -26,11 +26,7 @@ export const ProjectRouter = createTRPCRouter({
     })
 
 
-    await pollCommits(project.id)
-    await new Promise(resolve=>setTimeout(() => {
-      resolve(null)
-     
-    }, 61000))
+    pollCommits(project.id)
      indexGithubRepo(project.id, project.githubUrl, project.githubToken)
   
     return project;
@@ -51,7 +47,7 @@ export const ProjectRouter = createTRPCRouter({
   getCommits: protectedProcedure.input(z.object({
     projectId: z.string()
   })).query(async ({ ctx, input }) => {
-    pollCommits(input.projectId).then().catch(console.error);
+   await pollCommits(input.projectId).then().catch(console.error);
     const allCommits = await ctx.db.commit.findMany({
       where: {
         projectId: input.projectId
@@ -92,5 +88,34 @@ export const ProjectRouter = createTRPCRouter({
      }
     })
     return questions;
-  } )
+  } ),
+  uploadMeeting:protectedProcedure.input(z.object({
+    meetingUrl:z.string(),
+    projectId:z.string().optional(),
+    name:z.string()
+  })).mutation(async ({ctx,input})=>{
+    const meeting = await ctx.db.meeting.create({
+      data:{
+        meetingUrl:input.meetingUrl,
+        projectId:input.projectId || "",
+        userId:ctx.user.userId!,
+        name:input.name,
+        status:"PROCESSING"
+      }
+    })
+    return meeting;
+  }),
+  getMeetings:protectedProcedure.input(z.object({
+    projectId:z.string()
+  })).query(async ({ctx,input})=>{
+    return await ctx.db.meeting.findMany({
+      where:{
+        projectId:input.projectId
+      },
+      include:{
+        issue:true
+      }
+    })
+    
+  }),
 })

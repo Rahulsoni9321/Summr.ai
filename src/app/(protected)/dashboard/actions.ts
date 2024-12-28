@@ -16,10 +16,7 @@ export async function askQuestion(question: string, projectId: string) {
     const queryVector = await getEmbeddedContent(question);
     
     const vectorQuery = `[${queryVector.join(',')}]`;
-    
-    
-   
-   
+     
     const result = await db.$queryRaw`
     SELECT "fileName", "summary", "content",
     1 -("summaryEmbedding" <=> ${vectorQuery}::vector) AS similarity
@@ -29,9 +26,7 @@ export async function askQuestion(question: string, projectId: string) {
     ORDER BY similarity DESC
     LIMIT 10
     ` as {fileName:string,content:string,summary:string}[]
-   
-   
-   
+     
     let context = '';
 
     for (const doc of result ) {
