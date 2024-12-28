@@ -8,9 +8,26 @@ import useProject from "~/hooks/use-project"
 import CommitHolder from "./commit-holder";
 import AskQuestionCard from "./askquestion-card";
 import MeetingCard from "./meeting-card";
+import { api } from "~/trpc/react";
+import { toast } from "sonner";
+import useRefetch from "~/hooks/use-refetch";
+import InviteButton from "./invite-button";
 
 const Dashboard = () => {
-  const { project } = useProject();
+  const { project,projectId } = useProject();
+  const refetch = useRefetch();
+  const archiveProject = api.project.archiveProject.useMutation();
+  const handleArchive = ()=>{
+    archiveProject.mutate({projectId},{
+      onSuccess:()=>{
+        toast.success("Project archived successfully.")
+        refetch()
+      },
+      onError:()=>{
+        toast.error('Failed to Archive the project.')
+      }
+    })
+  }
   return (
     <div className=''>
       <div className="w-full flex items-center justify-between px-2">
@@ -25,8 +42,8 @@ const Dashboard = () => {
         </Button>
         <div className="flex items-center gap-5">
           <UserButton></UserButton>
-          <Button className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Invite a team Member!</Button>
-          <Button className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Archive</Button>
+          <InviteButton/>
+          <Button variant={"secondary"} disabled={archiveProject.isPending} onClick={handleArchive} className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Archive</Button>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5  gap-4 my-6 m-2 ">

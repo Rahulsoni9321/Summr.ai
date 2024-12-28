@@ -9,10 +9,23 @@ import { api } from '~/trpc/react';
 import useProject from '~/hooks/use-project';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import summarizeMeeting from '~/lib/assembly';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 
  const MeetingCard = () => {
   const {projectId} = useProject();
+  const processMeeting = useMutation({
+    mutationFn: async (data:{meetingUrl:string,meetingId:string})=>{
+      const {meetingUrl,meetingId} = data;
+     try { const response = await axios.post('/api/process-meeting',{meetingUrl,meetingId}); 
+      return response.data;}
+      catch(error) {
+        toast.error('Failed to store the processed meeting.')
+      }
+    }
+  }) 
   const router = useRouter();
      const [isUploading,setIsUploading] = useState(false);
     const [progress,setProgess] = useState(0);
@@ -34,9 +47,12 @@ import { useRouter } from 'next/navigation';
           projectId:projectId,
           name:file?.name || "Meeting",
         },
+        
       {
-        onSuccess:()=>{
+        onSuccess:(meeting)=>{
           toast.success('Meeting uploaded successfully');
+          summarizeMeeting(downloadUrl);
+          processMeeting.mutateAsync({meetingUrl:downloadUrl,meetingId:meeting.id})
           router.push(`/meeting`)
         },
         onError:()=>{

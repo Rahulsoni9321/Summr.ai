@@ -6,12 +6,32 @@ import MeetingCard from '../dashboard/meeting-card';
 import { Badge } from '~/components/ui/badge';
 import Link from 'next/link';
 import { Button } from '~/components/ui/button';
+import { Trash } from 'lucide-react';
+import { toast } from 'sonner';
+import useRefetch from '~/hooks/use-refetch';
 
 const MeetingPage = () => {
   const { projectId } = useProject();
-  const { data: meetings, isLoading } = api.project.getMeetings.useQuery({ projectId }, {
-    refetchInterval: 4000
-  });
+  const { data: meetings, isLoading } = api.project.getMeetings.useQuery({ projectId },
+    // {
+    //   refetchInterval:4000
+    // }
+  );
+  const refetch  = useRefetch();
+  const deleteMeeting = api.project.deleteMeeting.useMutation()
+  const handleDelete = async (meetingId: string) => {
+    deleteMeeting.mutate({ meetingId },
+      {
+        onSuccess: () => {
+          toast.success("Meeting Deleted Successfully")
+          refetch();
+        },
+        onError: () => {
+          toast.error("Error in deleting Meeting.")
+        }
+      }
+    )
+  }
   return (
     <>
       <MeetingCard></MeetingCard>
@@ -41,9 +61,9 @@ const MeetingPage = () => {
                   <div className=''>
                     <div className='min-w-0 '>
                       <div className='flex items-center justify-between w-full gap-7'>
-                        <Link href={`/meeting/${meeting.id}`} className='text-[16px] font-semibold'>
+                        <p className='text-[16px] font-semibold'>
                           {meeting.name}
-                        </Link>
+                        </p>
 
                         {
                           meeting.status === 'PROCESSING' && <Badge className='bg-yellow-400 text-white'>
@@ -68,13 +88,16 @@ const MeetingPage = () => {
                       </p>
                     </div>
                   </div>
-                  <div>
-                    <Link href={`/meeting/${meeting.id}`} className='flex items-center flex-none gap-x-4'>
-                    <Button variant='outline'>
-                    View Meeting
-                    </Button>
-                      
+                  <div className='flex items-center gap-x-4'>
+                    <Link  href={`/meeting/${meeting.id}`} className='flex items-center flex-none gap-x-4'>
+                      <Button size={"sm"} variant='outline'>
+                        View Meeting
+                      </Button>
+
                     </Link>
+                    <Button size="sm" disabled={deleteMeeting.isPending} variant='destructive' onClick={()=>handleDelete(meeting.id)} >
+                      Delete Meeting 
+                      </Button>
                   </div>
                 </li>
               ))
