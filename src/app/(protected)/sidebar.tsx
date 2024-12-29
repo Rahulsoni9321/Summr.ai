@@ -22,7 +22,7 @@ export const AppSidebar = () => {
                 <div className='flex items-center gap-2 order-1'>
                     <Image src={"/png-clipart-logo-xunit-random-org-randomness-computer-software-logo-github-blue-angle.png"} alt='logo' width={40} height={40}></Image>
                     
-                {open && <h1 className='text-md font-medium text-primary'>Analyse Github</h1>}
+                {open && <h1 className='text-md font-medium text-primary'>Summr-ai</h1>}
                 </div>
 
                 </div>
