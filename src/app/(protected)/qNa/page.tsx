@@ -34,6 +34,7 @@ const qNa = () => {
           return <React.Fragment key={index}> <SheetTrigger onClick={() => setselectedQuestionIndex(index)} >
             <div className={cn('bg-sidebar flex flex-col items-start gap-2 border dark:bg-black   shadow  rounded-md w-full p-4', {})}>
               <div className='flex items-center gap-3'>
+                <p className='font-medium'>{index + 1}.</p>
                 <p className='text-primary dark:text-white/90 text-lg line-clamp-1 font-medium'>{question.question}</p>
                 <p className='text-xs text-gray-400 whitespace-nowrap'>{question.createdAt.toLocaleDateString()}</p>
               </div>

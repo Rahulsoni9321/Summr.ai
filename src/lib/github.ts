@@ -69,11 +69,6 @@ export async function getcommitHashes(githubUrl: string): Promise<Response[]> {
     }))
 }
 
-
-
-
-
-
 export const generateSummary = async (Url: string, commitHash: any) => {
     const { data } = await axios.get(`${Url}/commit/${commitHash}.diff`, {
         headers: {

@@ -1,6 +1,4 @@
 "use client"
-
-import { UserButton } from "@clerk/nextjs";
 import { Github, GithubIcon, SquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
@@ -11,19 +9,21 @@ import MeetingCard from "./meeting-card";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
 import useRefetch from "~/hooks/use-refetch";
-import InviteButton from "./invite-button";
+const InviteButton = dynamic(() => import('./invite-button'), { ssr: false })
+import TeamMemberButton from "./team-members-button";
+import dynamic from "next/dynamic";
 
 const Dashboard = () => {
-  const { project,projectId } = useProject();
+  const { project, projectId } = useProject();
   const refetch = useRefetch();
   const archiveProject = api.project.archiveProject.useMutation();
-  const handleArchive = ()=>{
-    archiveProject.mutate({projectId},{
-      onSuccess:()=>{
+  const handleArchive = () => {
+    archiveProject.mutate({ projectId }, {
+      onSuccess: () => {
         toast.success("Project archived successfully.")
         refetch()
       },
-      onError:()=>{
+      onError: () => {
         toast.error('Failed to Archive the project.')
       }
     })
@@ -40,9 +40,9 @@ const Dashboard = () => {
             <SquareArrowOutUpRight />
           </Link>
         </Button>
-        <div className="flex items-center gap-5">
-          <UserButton></UserButton>
-          <InviteButton/>
+        <div className="flex items-center gap-3">
+          <TeamMemberButton></TeamMemberButton>
+          <InviteButton />
           <Button variant={"secondary"} disabled={archiveProject.isPending} onClick={handleArchive} className="bg-sidebar border dark:border-sidebar-accent-foreground border-sidebar-border dark:text-white  text-black">Archive</Button>
         </div>
       </div>
