@@ -1,9 +1,8 @@
-import { useAuth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import summarizeMeeting from "~/lib/assembly";
+import { summarizeMeeting } from "~/lib/assembly";
 import { db } from "~/server/db";
-import { api } from "~/trpc/server";
 
 
 const bodyParser = z.object({
@@ -11,16 +10,18 @@ const bodyParser = z.object({
     meetingId: z.string()
 })
 
-export default async function POST(req: NextRequest, res: NextResponse) {
-    const { userId } = useAuth();
+export const maxDuration = 300; // 5 minutes
+
+export async function POST(req: NextRequest, res: NextResponse) {
+    
+    const { userId } = await auth();
     if (!userId) {
-        return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+        return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
     }
-
-    const body = await req.json();
-    const { meetingUrl, meetingId } = bodyParser.parse(body);
-
     try {
+        const body = await req.json();
+        const { meetingUrl, meetingId } = bodyParser.parse(body);
+        console.log("Inside post request.")
         const { summaries } = await summarizeMeeting(meetingUrl);
         await db.issue.createMany({
             data: summaries.map(summary => ({

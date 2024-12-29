@@ -26,7 +26,7 @@ import useProject from '~/hooks/use-project'
                 navigator.clipboard.writeText(`${window.location.origin}/join/${projectId}`)
                 toast.success("copied to clipboard")
             }} value={`${window.location.origin}/join/${projectId}`} className='cursor-pointer'></Input>
-            <p className='text-muted-foreground text-xs -mt-2 flex items-center gap-1'>Click to above copy <Copy className='w-3 h-3'></Copy></p>
+            <p className='text-muted-foreground text-xs -mt-2 flex items-center gap-1'>Click above to copy the link <Copy className='w-3 h-3'></Copy></p>
         </DialogContent>
       
     </Dialog>

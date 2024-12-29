@@ -6,16 +6,15 @@ import MeetingCard from '../dashboard/meeting-card';
 import { Badge } from '~/components/ui/badge';
 import Link from 'next/link';
 import { Button } from '~/components/ui/button';
-import { Trash } from 'lucide-react';
 import { toast } from 'sonner';
 import useRefetch from '~/hooks/use-refetch';
 
 const MeetingPage = () => {
   const { projectId } = useProject();
   const { data: meetings, isLoading } = api.project.getMeetings.useQuery({ projectId },
-    // {
-    //   refetchInterval:4000
-    // }
+    {
+      refetchInterval:4000
+    }
   );
   const refetch  = useRefetch();
   const deleteMeeting = api.project.deleteMeeting.useMutation()
@@ -57,7 +56,7 @@ const MeetingPage = () => {
           <ul className='divide-y divide-gray-200'>
             {
               meetings.map(meeting => (
-                <li key={meeting.id} className='flex  items-center justify-between gap-x-6 gap-5'>
+                <li key={meeting.id} className='flex  items-center justify-between gap-x-6 gap-5 p-4'>
                   <div className=''>
                     <div className='min-w-0 '>
                       <div className='flex items-center justify-between w-full gap-7'>

@@ -4,8 +4,9 @@ import { VideoIcon } from "lucide-react";
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
-import { Dialog, DialogDescription, DialogHeader } from "~/components/ui/dialog";
+import { Dialog, DialogDescription } from "@radix-ui/react-dialog";
 import { api, RouterOutputs } from "~/trpc/react";
+import { DialogHeader } from "~/components/ui/dialog";
 
 type Props = {
     meetingId: string
@@ -36,7 +37,7 @@ const IssueList = ({ meetingId }: Props) => {
                 </div>
 
             </div>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 ">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 gap-x-4 m-4">
                 {
                     meeting.issue.map((issuelist) => {
                         return <IssueCard key={issuelist.id} issue={issuelist} ></IssueCard>
@@ -52,19 +53,20 @@ const IssueList = ({ meetingId }: Props) => {
 
 
 function IssueCard({ issue }: { issue: NonNullable<RouterOutputs["project"]["getMeetingById"]>["issue"][number] }) {
-    const [open,setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
     return <>
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogHeader>
-                <DialogTitle>
-
-                {issue.gist}
-                </DialogTitle>
-            <DialogDescription>
-                {issue.createdAt.toLocaleDateString()}
-            </DialogDescription>
-            </DialogHeader>
+       {open && <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>
+
+                        {issue.gist}
+                    </DialogTitle>
+                    <DialogDescription>
+                        {issue.createdAt.toLocaleDateString()}
+                    </DialogDescription>
+
+                </DialogHeader>
                 <p className="dark:text-gray-300 text-gray-800">{issue.headline}</p>
                 <blockquote className="mt-2 bordder-l-4 border-gray-300 bg-gray-50 dark:bg-neutral-800 p-4">
                     <p className="text-sm text-gray-600">
@@ -77,25 +79,26 @@ function IssueCard({ issue }: { issue: NonNullable<RouterOutputs["project"]["get
                 </blockquote>
 
             </DialogContent>
-        </Dialog>
-        <Card>
-           <CardHeader>
-            <CardTitle className="text-xl">
+        </Dialog>}
+        <Card className="relative">
 
-            {issue.gist}
-            </CardTitle>
-            <div className="border-b"></div>
-           <CardDescription>
-            {issue.headline}
-           </CardDescription>
-           </CardHeader>
-           <CardContent>
-            
-           </CardContent>
-            <CardFooter>
+            <CardHeader>
+                <CardTitle className="text-xl">
 
-                <Button variant={"default"} onClick={()=>setOpen(true)}>View Details</Button>
-            </CardFooter>
+                    {issue.gist}
+                </CardTitle>
+                <div className="border-b"></div>
+                <CardDescription>
+                    {issue.headline}
+                </CardDescription>
+            </CardHeader>
+
+            <CardContent>
+
+             
+                <Button variant={"default"} onClick={() => setOpen(true)}>View Details</Button>
+
+            </CardContent>
         </Card>
     </>
 }
