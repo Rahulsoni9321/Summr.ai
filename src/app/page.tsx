@@ -1,21 +1,15 @@
-import { redirect } from "next/dist/server/api-utils";
-import Link from "next/link";
-
-
-import { Button } from "~/components/ui/button";
-import useProject from "~/hooks/use-project";
-import { api, HydrateClient } from "~/trpc/server";
+import {  HydrateClient } from "~/trpc/server";
+import LandingPage from "./landing";
+import Navbar from "./navbar";
 
 export default async function Home() {
  
   return (
     <HydrateClient>
-      <div className="text-red-500">
-     <Link href={"/dashboard"}>
-     
-      Dashboard
-     </Link>
-      </div>
+      <Navbar></Navbar>
+     <LandingPage></LandingPage>
+      
     </HydrateClient>
   );
 }
+

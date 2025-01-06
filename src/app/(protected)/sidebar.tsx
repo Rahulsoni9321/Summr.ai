@@ -3,7 +3,7 @@ import { CreditCard, FileQuestion, LayoutDashboard, Plus, Presentation, Tv } fro
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from '~/components/ui/button'
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from '~/components/ui/sidebar'
 import useProject from '~/hooks/use-project'
