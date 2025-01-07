@@ -13,6 +13,7 @@ import { SparklesCore } from "~/components/ui/sparkles";
 import { TextGenerateEffect } from "~/components/ui/text-generate-effect";
 import { Button } from '~/components/ui/button';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 
 const testimonials = [
   {
@@ -61,14 +62,17 @@ function LandingPage() {
               className="text-3xl md:text-4xl xl:text-6xl font-bold mb-8"
             />
             <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
-              Summarize large codebases in a single click.
+              Our AI-powered platform helps you quickly understand and navigate complex codebases, saving you time and effort.
             </p>
             <div  className="flex flex-wrap justify-center gap-4">
-              <MovingBorder duration={8000}  className="px-8 py-3 bg-indigo-600 rounded-lg font-semibold">
-                Get Started Free
+              <MovingBorder duration={6000}  className="px-8 py-3 bg-indigo-600 rounded-lg font-semibold">
+                <Link href={'/dashboard'} className='w-full'>
+               Get Started Free
                 <ChevronRight className="ml-2 inline-block w-5 h-5" />
+                  </Link>
+                  
               </MovingBorder>
-              <button className="px-8 py-3 border-2 border-gray-700 rounded-lg font-semibold hover:border-indigo-600 transition">
+              <button  className="px-8 py-3 border-2 border-gray-700 rounded-lg font-semibold hover:border-indigo-600 transition">
                 Learn More
               </button>
             </div>

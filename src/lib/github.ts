@@ -50,17 +50,17 @@ export const pollCommits = async (projectId: string) => {
 
 export async function getcommitHashes(githubUrl: string): Promise<Response[]> {
     const [owner, repo] = githubUrl.split('/').splice(-2);
+    if (!owner || !repo) {
+        throw new Error("GithubUrl is not correct.")
+    }
     const { data } = await octokit.rest.repos.listCommits({
         owner: owner!,
         repo: repo!
     })
 
-    if (!owner || !repo) {
-        throw new Error("GithubUrl is not correct.")
-    }
     const sortedCommits = data.sort((a: any, b: any) => new Date(b.commit.author?.date).getTime() - new Date(a.commit.author?.date).getTime()) as any[];
 
-    return sortedCommits.slice(0, 10).map((commits: any) => ({
+    return sortedCommits.slice(0, 6).map((commits: any) => ({
         commitHash: commits.sha as string,
         commitAuthorAvatar: commits.author.avatar_url || "",
         commitMessage: commits.commit.message || "",

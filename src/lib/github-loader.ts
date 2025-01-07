@@ -47,7 +47,7 @@ export const indexGithubRepo = async (projectId: string, githubUrl: string, gith
     }))
 }
 export const generateEmbeddings = async (docs: Document[]) => {
-    const batches = _.chunk(docs, 14);
+    const batches = _.chunk(docs, 9);
     let returnedArray: any[] = [];
     for (const batch of batches) {
         const value = await Promise.all(batch.map(async (doc: Document) => {
